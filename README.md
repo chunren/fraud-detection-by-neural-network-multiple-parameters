@@ -1,123 +1,91 @@
 
-# Credit Card Fraud Detection Using Neural Networks
+# Credit Card Fraud Detection with Neural Network and Hyperparameter Tuning
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10-green.svg)](https://www.python.org/)
+This project implements a neural network model to detect fraudulent credit card transactions. The model undergoes hyperparameter tuning to improve performance by adjusting key parameters such as learning rate, dropout rate, regularization factor, and class weights. The objective is to achieve optimal detection of fraudulent transactions (Class 1) in a highly imbalanced dataset.
+
+## Table of Contents
+- [Overview](#overview)
+- [Installation](#installation)
+- [Dataset](#dataset)
+- [Model Training and Hyperparameter Tuning](#model-training-and-hyperparameter-tuning)
+- [Results](#results)
+- [Conclusion](#conclusion)
 
 ## Overview
+The goal of this project is to build a robust neural network capable of detecting fraudulent credit card transactions. The tuning process involves adjusting several hyperparameters:
+- **Learning Rate**: Controls the step size at each iteration during optimization.
+- **Dropout Rate**: A technique to prevent overfitting by randomly dropping neurons during training.
+- **Regularization Factor (L2)**: Penalizes large weights in the model to reduce overfitting.
+- **Class Weights**: Handles class imbalance by giving more importance to the minority class (fraud cases).
 
-This project builds a robust neural network model to detect fraudulent credit card transactions. The dataset is highly imbalanced, with fraudulent transactions comprising less than 0.2% of the data. By addressing class imbalance, applying feature engineering, and optimizing the model, this project demonstrates how to effectively detect fraud in real-world scenarios.
+Despite the extensive tuning process, the model's performance on the test set showed a slight decrease in the F1-score for fraud detection compared to the results from cross-validation.
 
-## Key Features
+## Installation
 
-- **Data Preprocessing:**
-  - Log transformation of transaction amounts.
-  - Hour extraction from transaction time.
-  - Downsampling non-fraud cases to achieve a 2:1 ratio with fraud cases.
-  - Feature scaling using `RobustScaler`.
+To run this project, you'll need the following dependencies:
 
-- **Neural Network Architecture:**
-  - Sequential model with multiple `Dense` and `Dropout` layers.
-  - Class weighting to handle imbalanced data.
-  - L2 regularization to prevent overfitting.
+- Python 3.x
+- NumPy
+- Pandas
+- Matplotlib
+- Seaborn
+- TensorFlow (2.x)
+- Scikit-learn
+- tqdm
 
-- **Cross-Validation:**
-  - Tuning class weights during training to optimize the **F1 score** for fraud detection.
-  - Early stopping and learning rate reduction to improve model performance.
+You can install the dependencies by running:
 
-- **Evaluation Metrics:**
-  - **F1 score**, **Precision**, **Recall**, **ROC-AUC** score.
-  - Confusion matrix and precision-recall curves for detailed evaluation.
+\`\`\`bash
+pip install numpy pandas matplotlib seaborn tensorflow scikit-learn tqdm
+\`\`\`
 
 ## Dataset
 
-The project uses the [Kaggle Credit Card Fraud Detection Dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud). It contains 284,807 transactions with 31 features, including `Time`, `Amount`, and anonymized variables. The target variable `Class` indicates if a transaction is fraudulent (`1`) or not (`0`).
+The dataset used is the [Kaggle Credit Card Fraud Detection dataset](https://www.kaggle.com/mlg-ulb/creditcardfraud). It contains transactions made by European cardholders in September 2013. The dataset is highly imbalanced, with only 492 frauds out of 284,807 transactions.
 
-## Model Performance
+## Model Training and Hyperparameter Tuning
 
-The model achieves strong performance:
+### Preprocessing
+- **Log Transformation**: Applied to the 'Amount' feature to reduce skewness.
+- **Hour Extraction**: Extracts the hour from the 'Time' feature to capture temporal patterns.
+- **Downsampling**: The dataset is balanced to a 2:1 ratio (non-fraud to fraud) for better fraud detection.
 
-- **Best F1-score (Fraud) from Cross-Validation:** `0.93`
-- **Best Precision (Fraud) from Cross-Validation:** `0.99`
-- **Best Recall (Fraud) from Cross-Validation:** `0.87`
+### Model Architecture
+The neural network consists of multiple dense layers with ReLU activations and Dropout layers to prevent overfitting. The final layer is a sigmoid output for binary classification.
 
-On the test set:
+### Hyperparameter Tuning
+Grid search was performed across the following ranges:
+- **Learning Rate**: 0.0002 to 0.0011
+- **Dropout Rate**: 0.1 to 0.3
+- **Regularization Factor**: 0.0005 to 0.002
+- **Class Weights**: 1.01 to 2.1
 
-- **Final F1-score (Fraud):** `0.92`
-- **Final Precision (Fraud):** `1.00`
-- **Final Recall (Fraud):** `0.86`
-- **Final ROC-AUC Score:** `0.96`
+### Cross-Validation Results
+- **Best F1-score (Fraud)**: 0.94
+- **Best Precision (Fraud)**: 0.98
+- **Best Recall (Fraud)**: 0.90
 
-These results indicate that the model is highly effective at detecting fraudulent transactions, with high precision and recall.
+The best model from cross-validation was saved and further evaluated on the test data.
 
-## How to Run the Project
+## Results
 
-1. **Clone the repository:**
+After running the model on the test set, the performance metrics were as follows:
+- **Final F1-score (Fraud)**: 0.91
+- **Final Precision (Fraud)**: 0.97
+- **Final Recall (Fraud)**: 0.86
+- **ROC-AUC Score**: 0.96
 
-   ```bash
-   git clone https://github.com/chunren/credit-card-fraud-detection-by-neural-network.git
-   ```
+**Confusion Matrix:**
 
-2. **Install required packages:**
+|               | Non-Fraud | Fraud |
+|---------------|-----------|-------|
+| **Non-Fraud** | 194       | 3     |
+| **Fraud**     | 14        | 85    |
 
-   Ensure you have Python 3.10 installed, and then run:
+The model achieved strong precision but slightly lower recall on the test data, resulting in a final F1-score of 0.91 for fraud detection, which is slightly lower than the cross-validation F1-score of 0.94.
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Conclusion
 
-3. **Download the dataset:**
+While hyperparameter tuning showed improvements during cross-validation, the final test performance slightly underperformed with an F1-score of 0.91 compared to 0.92 achieved by the original untuned model. This drop in performance is likely due to slight overfitting from the complex tuning process, where the model's ability to generalize decreased. Further optimization of class weights or regularization factors might help recover or exceed the baseline performance in future iterations.
 
-   Download the dataset from [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud) and place it in the `data/` folder.
-
-4. **Run the Notebook:**
-
-   Open the notebook in JupyterLab or Jupyter Notebook, and run the code in the Section 4 of the notebook:
-
-   ```bash
-   jupyter notebook credit-card-fraud-detection-by-neural-network.ipynb
-   ```
-
-   This will preprocess the data, train the model, and output the evaluation metrics.
-
-## Project Structure
-
-```
-.
-├── data/                     # Folder for the dataset
-├── models/                   # Saved models and checkpoints
-├── plots/                    # Output plots for evaluation
-├── credit-card-fraud-detection-by-neural-network.ipynb         # Main script to run the project
-├── requirements.txt           # Python dependencies
-└── README.md                  # Project description
-```
-
-## Visualization
-
-The project includes various visualizations for model performance:
-
-- **Confusion Matrix**
-- **ROC Curve**
-- **Precision-Recall Curve**
-- **Correlation Heatmap** for feature relationships
-
-![Performance Diagrams](./plots/performance-diagrams.png)
-![Correlation Heatmap](./plots/Correlation-Heatmap-of-Features.png)
-
-
-## Future Work
-
-Potential improvements for the project:
-
-- **Hyperparameter Tuning:** Further optimize parameters like batch size and learning rate.
-- **Advanced Class Balancing:** Experiment with techniques like SMOTE or ADASYN.
-- **Ensemble Models:** Explore ensemble approaches like RandomForest or XGBoost to improve performance.
-
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to fork this project, open issues, or contribute to its development!
+The model is still highly effective at detecting fraud, especially with its strong precision, and can be a useful tool in real-world fraud detection applications.
