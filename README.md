@@ -25,7 +25,7 @@ Despite the extensive tuning process, the model's performance on the test set sh
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/chunren/fraud-detection-by-neural-network-multiple-paramters.git
+   git clone https://github.com/chunren/fraud-detection-by-neural-network-multiple-parameters.git
    ```
 
 2. **Install required packages:**
