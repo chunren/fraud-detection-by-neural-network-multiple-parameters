@@ -81,6 +81,30 @@ After running the model on the test set, the performance metrics were as follows
 
 The model achieved strong precision but slightly lower recall on the test data, resulting in a final F1-score of 0.91 for fraud detection, which is slightly lower than the cross-validation F1-score of 0.94.
 
+## Project Structure
+
+```
+.
+├── data/                     # Folder for the dataset
+├── models/                   # Saved models and checkpoints
+├── plots/                    # Output plots for evaluation
+├── credit-card-fraud-detection-by-neural-network-multiple-parameters.ipynb         # Main script to run the project
+├── requirements.txt           # Python dependencies
+└── README.md                  # Project description
+```
+
+## Visualization
+
+The project includes various visualizations for model performance:
+
+- **Confusion Matrix**
+- **ROC Curve**
+- **Precision-Recall Curve**
+- **Correlation Heatmap** for feature relationships
+
+![Performance Diagrams](./plots/performance-diagrams.png)
+![Correlation Heatmap](./plots/Correlation-Heatmap-of-Features.png)
+
 ## Conclusion
 
 While hyperparameter tuning showed improvements during cross-validation, the final test performance slightly underperformed with an F1-score of 0.91 compared to 0.92 achieved by the original untuned model. This drop in performance is likely due to slight overfitting from the complex tuning process, where the model's ability to generalize decreased. Further optimization of class weights or regularization factors might help recover or exceed the baseline performance in future iterations.
