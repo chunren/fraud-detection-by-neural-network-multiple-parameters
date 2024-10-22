@@ -22,22 +22,19 @@ Despite the extensive tuning process, the model's performance on the test set sh
 
 ## Installation
 
-To run this project, you'll need the following dependencies:
+1. **Clone the repository:**
 
-- Python 3.x
-- NumPy
-- Pandas
-- Matplotlib
-- Seaborn
-- TensorFlow (2.x)
-- Scikit-learn
-- tqdm
+   ```bash
+   git clone https://github.com/chunren/fraud-detection-by-neural-network-multiple-paramters.git
+   ```
 
-You can install the dependencies by running:
+2. **Install required packages:**
 
-\`\`\`bash
-pip install numpy pandas matplotlib seaborn tensorflow scikit-learn tqdm
-\`\`\`
+   Ensure you have Python 3.10 installed, and then run:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Dataset
 
